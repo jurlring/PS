@@ -48,7 +48,7 @@ class Solution {
 			number[k]=tmp;
 		}
         return files;
-    }
+    }//1,2,13,14,15,17 
 	    public static void main(String[] args) {
         String [] m={"img12.png", "img10.png", "img02.png", "iMg1.png", "IMG01.GIF", "img2.JPG","F-5 Freedom Fighter", "B-50 Superfortress", "A-10 Thunderbolt II", "F-14 Tomcat"};
 		String [] k=solution(m);
