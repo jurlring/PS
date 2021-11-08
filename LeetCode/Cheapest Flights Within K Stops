@@ -1,0 +1,37 @@
+class Solution {
+    Map<Integer,List<int[]>> graph=new HashMap();
+	public int findCheapestPrice(int n, int[][] flights, int src, int dst, int K) {
+        int [][]d=new int[n][K+2];
+        int m=flights.length;
+        for(int i=0;i<n;i++){
+            graph.put(i,new ArrayList<int[]>());
+            Arrays.fill(d[i], Integer.MAX_VALUE);
+        }
+        for(int i=0;i<m;i++) {
+        	graph.get(flights[i][1]).add(new int[] {flights[i][0],flights[i][2]});
+        }
+        Arrays.fill(d[src], 0);
+        for(int e=1;e<=K+1;e++) {
+        	for(int v=0;v<n;v++) {
+        		if (v==src)
+        			continue;
+        		if (graph.get(v).size()>0) {
+        			List<int[]> jurls=graph.get(v);
+        			for(int[] jurl : jurls) {
+        				int nextd=d[jurl[0]][e-1]+jurl[1];
+                        if (d[jurl[0]][e-1]==Integer.MAX_VALUE)
+                              nextd=Integer.MAX_VALUE;
+        				d[v][e]=Math.min(nextd,Math.min(d[v][e],d[v][e-1]));
+        			}
+                    
+        		}
+        		else
+        			d[v][e]=d[v][e-1];
+                
+        	}
+        }
+        if (d[dst][K+1]==Integer.MAX_VALUE)
+            d[dst][K+1]=-1;
+        return  d[dst][K + 1];
+    }
+}
