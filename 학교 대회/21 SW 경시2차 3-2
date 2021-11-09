@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <math.h>
+#pragma warning(disable : 4996)
+#define _CRT_SECURE_NO_WARNINGS
+int arr[5][5],arr2[5][5];
+void block(int i, int j) {
+    if (arr[i][j] >0) {
+        arr2[i][j] = 1;
+    }
+    if (arr[i][j] > 1) {
+        if (i < 4&&arr[i+1][j]>0) {
+            block(i + 1, j);
+        }
+        if (j < 4&&arr[i][j+1]>0) {
+            block(i, j + 1);
+        }
+    }
+    if (arr[i][j] > 2) {
+        if (i < 3 && arr[i + 2][j]>0)
+            block(i + 2, j);
+        if (j < 3 && arr[i][j + 2]>0)
+            block(i, j + 2);
+    }
+}
+int main(void) {
+    int M;
+    //scanf("%d", &M);
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            scanf("%d", &arr[i][j]);
+            arr2[i][j] = 0;
+        }
+    }
+    block(0, 0);
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            printf("%d ", arr2[i][j]);
+        }
+        printf("\n");
+    }
+    
+    return 0;
+}
+
+
