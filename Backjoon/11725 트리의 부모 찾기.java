@@ -2,10 +2,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
@@ -25,36 +23,32 @@ public class 트리의_부모_찾기 {
         visit = new boolean[n + 1];
         rootNodes = new int[n + 1];
 
-        Map<Integer, List<Integer>> linkedNodes = new HashMap<>();
-
+        ArrayList<Integer>[] linkedNodeList = new ArrayList[n + 1];
         for (int i = 1; i <= n; i++) {
-            linkedNodes.put(i, new ArrayList<>());
+            linkedNodeList[i] = new ArrayList<>();
         }
 
         for (int i = 0; i < n - 1; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
             int left = Integer.parseInt(st.nextToken());
             int right = Integer.parseInt(st.nextToken());
-            List<Integer> leftList = linkedNodes.get(left);
-            leftList.add(right);
-            linkedNodes.put(left, leftList);
-            List<Integer> rightList = linkedNodes.get(right);
-            rightList.add(left);
-            linkedNodes.put(right, rightList);
+
+            linkedNodeList[left].add(right);
+            linkedNodeList[right].add(left);
         }
-        bfs(n, linkedNodes);
+        bfs(n, linkedNodeList);
         for (int i = 2; i <= n; i++) {
             System.out.println(rootNodes[i]);
         }
     }
 
-    private static void bfs(int n, Map<Integer, List<Integer>> linkedNodes) {
+    private static void bfs(int n, ArrayList<Integer>[] linkedNodes) {
         Queue<Integer> q = new LinkedList<>();
         q.add(1);
         visit[1] = true;
         while (!q.isEmpty()) {
             Integer root = q.poll();
-            List<Integer> childs = linkedNodes.get(root);
+            List<Integer> childs = linkedNodes[root];
             for (Integer child : childs) {
                 if (!visit[child]) {// 방문하지 않았다면
                     rootNodes[child] = root;
